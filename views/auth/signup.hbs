@@ -6,7 +6,7 @@
     <br>
     <br>
     <label>Email</label>
-    <input type="email" name="email" placeholder="rockstar@ironhack.com" />
+    <input type="text" name="email" placeholder="rockstar@ironhack.com" />
     <br>
     <br>
     <label>Password</label>
@@ -16,4 +16,9 @@
     <button type="submit">Crear cuenta</button>
 
   </form>
+
+    {{#if errorMessage}}
+        <p class="error">{{errorMessage}}</p>
+    {{/if}}
+
 </div>
