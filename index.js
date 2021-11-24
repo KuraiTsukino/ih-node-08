@@ -24,7 +24,7 @@ app.use(express.urlencoded({extended: true}))
 connectDB()
 
 // 3. Rutas
-
+app.use("/auth", require("./routes/auth"))
 app.use("/users", require("./routes/users"))
 app.use("/", require("./routes/index"))
 
