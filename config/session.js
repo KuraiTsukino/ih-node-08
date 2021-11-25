@@ -24,7 +24,7 @@ const sessionManager = (app) => {
         // 5 propiedades
 
         // se añade a la sesión una palabra secreta para mayor seguridad a la sesión. Mayúscula, minúsculas y del cero al nueve. Para coincidir en el servidor 
-        secret: "HOLAMUNDO",
+        secret: process.env.SESSION, // No se sube a Github
         resave: true, // tan pronto nosotros borramos una cookie, pero se vuelve a hacer un login del navegador, se forza, por si hay algún error, se reintegra la cookie, siempre es true.
         saveUninitialized: false, // si no hay una cookie, hasta que se hace un registro se hace una cookie, es parte de esta configuración.
         cookie: { // es un archivo único que se genera en el servidor con los datos elegidos del usuario, se envía parcialmente una copia a la BD y la cookie se envía al cliente. Se inserta en el header. Tiene dos propiedades.
