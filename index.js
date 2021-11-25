@@ -29,6 +29,13 @@ app.use(express.urlencoded({extended: true}))
 connectDB()
 
 // 3. Rutas
+
+// Layout middleware, es parte del ruteo
+app.use((req, res, next) => {
+    res.locals.currentUser = req.session.currentUser
+    next()
+})
+
 app.use("/auth", require("./routes/auth"))
 app.use("/users", require("./routes/users"))
 app.use("/", require("./routes/index"))
