@@ -71,8 +71,6 @@ exports.register = async (req, res) => {
 
     }
 
-
-
     // 2. Encriptación de password. Antes de subirlo a la base de datos. NO OLVIDAR JAMÁS.
 
     //bcrypt - cada vez que se quiere hacer una encriptación, se le dice al servidor cuantas veces queremos que revuelva el password y lo regresa en "salt", regresa un texto plano
@@ -95,3 +93,83 @@ exports.register = async (req, res) => {
 
 }
 
+exports.viewLogin = async (req, res) => {
+    res.render("auth/login")
+}
+
+exports.login = async (req, res) => {
+
+    try {
+
+    // 1. Obtención de datos del formulario
+        const email = req.body.email
+        const password = req.body.password
+
+        //console.log(email, password)
+
+    // 2. Validación de usuario enconrado en BD.
+    // Verificar que el usuario esté en la contraseña.
+    // que lo busque por mail.
+
+        const foundUser = await User.findOne ({ email })
+
+        // console.log(foundUser) -> si no lo encuentra devuelve un null
+
+        if(!foundUser) {
+            res.render("auth/login", {
+                errorMessage: "Email o contraseña sin coincidencia"
+                // No poner qué dato está mal, cuestión de seguridad
+            })
+
+            return
+
+        }
+    
+    // 3. Validación de contraseña, verificarlo con la BD.
+    // Comparar la contraseña del formulario vs la del la BD.
+
+        const verifiedPass = await bcryptjs.compareSync(password, foundUser.passwordEncriptado)
+
+        if(!verifiedPass) {
+            res.render("auth/login", {
+                errorMessage: "Email o contraseña errónea. Intenta nuevamente"
+            })
+
+            return
+
+        }
+        
+        // console.log("verifiedPass", verifiedPass)
+        // compara los passwords, devuelve true si es correcto.
+
+    // 4. Generar la sesión, enviar desde el servidor al cliente una cookie, archivo que contiene la información del usuario de la BD, se anexa al navegador.
+    // a. Establecer persistencia de identidad.
+
+        req.session.currentUser = {
+            _id: foundUser._id,
+            username: foundUser.username,
+            email: foundUser.email,
+            mensaje: "LO LOGRAMOS, CARAJO"
+        }
+
+    // 5. Redireccionar al home.
+        res.redirect("/users/profile")
+
+    } catch (error) {
+        console.log (error)
+    }
+}
+
+exports.logout = async (req, res) => {
+    req.session.destroy((error) => {
+        // Al destruir la cookie se borra en la base de datos.
+        // Si hay algún error al borrar la cookie
+        if(error) {
+            console.log(error)
+            return
+        }
+        // redireccionar al home
+        res.redirect("/")
+
+    })
+}

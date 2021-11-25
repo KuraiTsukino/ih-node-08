@@ -6,10 +6,15 @@ const app = express()
 const hbs = require("hbs")
 
 const connectDB = require("./config/db")
+const sessionManager = require("./config/session")
 
 require("dotenv").config()
 
 // 2. Middleware
+
+//console.log(sessionManager)
+sessionManager(app)
+
 app.use(express.static("public"))
 
 app.set("views", __dirname + "/views")

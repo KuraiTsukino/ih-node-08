@@ -1,3 +1,4 @@
-exports.register = async (req, res) => {
-    res.send ("Estás en la página de Register")
+exports.profile = async (req, res) => {
+    res.render ("users/profile")
 }
+
