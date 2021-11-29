@@ -1,3 +1,5 @@
+// 1. Importaciones.
+
 const User = require("./../models/User")
 const bcryptjs = require("bcryptjs")
 
@@ -107,9 +109,9 @@ exports.login = async (req, res) => {
 
         //console.log(email, password)
 
-    // 2. Validación de usuario enconrado en BD.
-    // Verificar que el usuario esté en la contraseña.
-    // que lo busque por mail.
+        // 2. Validación de usuario encontrado en BD.
+        // Verificar que el usuario esté en la contraseña.
+        // que lo busque por mail.
 
         const foundUser = await User.findOne ({ email })
 
@@ -125,8 +127,8 @@ exports.login = async (req, res) => {
 
         }
     
-    // 3. Validación de contraseña, verificarlo con la BD.
-    // Comparar la contraseña del formulario vs la del la BD.
+        // 3. Validación de contraseña, verificarlo con la BD.
+        // Comparar la contraseña del formulario vs la del la BD.
 
         const verifiedPass = await bcryptjs.compareSync(password, foundUser.passwordEncriptado)
 

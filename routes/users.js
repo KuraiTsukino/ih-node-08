@@ -4,6 +4,7 @@ const express = require("express")
 const router = express.Router()
 
 const usersController = require("./../controllers/usersController")
+
 // Ruta relativa
 const routeGuard = require("./../middlewares/route-guard")
 console.log("El routeguard importado es: ", routeGuard.usuarioLoggeado)

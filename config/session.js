@@ -33,7 +33,7 @@ const sessionManager = (app) => {
 
         },
 
-        // Gestión de la fotocopia en MOngoDB a través de una colección llamada sesiones.
+        // Gestión de la fotocopia en MongoDB a través de una colección llamada sesiones.
         store: MongoStore.create({
             mongoUrl: process.env.MONGODB_URI
         })
